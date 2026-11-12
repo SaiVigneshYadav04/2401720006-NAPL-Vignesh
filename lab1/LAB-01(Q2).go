@@ -1,65 +1,63 @@
-package lab1
+package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
-func Calculator() {
-
+func ReadInteger(reader *bufio.Reader, message string) int {
 	for {
-		var choice int
-		fmt.Println("1.Perform integer operations")
-		fmt.Println("2.Perform float operations")
-		fmt.Println("3.Exit")
-		fmt.Scan(&choice)
+		fmt.Print(message)
+		input, _ := reader.ReadString('\n')
+		num, err := strconv.Atoi(strings.TrimSpace(input))
 
-		if choice == 1 {
-			var a int
-			fmt.Print("Enter first integer: ")
-			fmt.Scan(&a)
-
-			var b int
-			fmt.Print("Enter second integer: ")
-			fmt.Scan(&b)
-
-			var addition int = a + b
-			fmt.Printf("Addition %d \n", addition)
-
-			var subtraction int = a - b
-			fmt.Printf("Subtraction %d \n", subtraction)
-
-			if b == 0 {
-				fmt.Println("Division with zero is not valid")
-			} else {
-				var division int = a / b
-				fmt.Printf("Division %d \n", division)
-			}
-		} else if choice == 2 {
-			var x float32
-			fmt.Print("Enter first float: ")
-			fmt.Scan(&x)
-
-			var y float32
-			fmt.Print("Enter second float: ")
-			fmt.Scan(&y)
-
-			var add float32 = x + y
-			fmt.Printf("Addition %f \n", add)
-
-			var sub float32 = x - y
-			fmt.Printf("Subtraction %f \n", sub)
-
-			if y == 0 {
-				fmt.Println("Division with zero is not valid")
-			} else {
-				var div float32 = x / y
-				fmt.Printf("Division %f \n", div)
-			}
-			var multi float32 = x * y
-			fmt.Printf("Multiplication %f \n", multi)
-		} else if choice == 3 {
-			break
+		if err == nil && num >= -100000 && num <= 100000 {
+			return num
 		} else {
-			fmt.Println("Invalid error")
+			fmt.Println("Invalid input! Enter an integer between -100000 and 100000.")
 		}
 	}
+}
 
+func ReadFloat(reader *bufio.Reader, message string) float64 {
+	for {
+		fmt.Print(message)
+		input, _ := reader.ReadString('\n')
+		num, err := strconv.ParseFloat(strings.TrimSpace(input), 64)
+
+		if err == nil && num >= -100000 && num <= 100000 {
+			return num
+		} else {
+			fmt.Println("Invalid input! Enter a number between -100000 and 100000.")
+		}
+	}
+}
+
+func CalculatorQuestion() {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("Integer Operations")
+
+	a := ReadInteger(reader, "Enter first integer: ")
+	b := ReadInteger(reader, "Enter second integer: ")
+
+	fmt.Println("Addition:", a+b)
+	fmt.Println("Subtraction:", a-b)
+	fmt.Println("Multiplication:", a*b)
+
+	fmt.Println("\nFloating Point Operations")
+
+	x := ReadFloat(reader, "Enter first float: ")
+	y := ReadFloat(reader, "Enter second float: ")
+
+	fmt.Printf("Addition: %.2f\n", x+y)
+	fmt.Printf("Subtraction: %.2f\n", x-y)
+	fmt.Printf("Multiplication: %.2f\n", x*y)
+}
+
+func main() {
+	CalculatorQuestion()
 }
