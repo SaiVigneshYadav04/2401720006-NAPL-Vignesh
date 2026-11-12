@@ -2,7 +2,7 @@ package lab1
 
 import "fmt"
 
-func CalculatorQuestion() {
+func Calculator() {
 
 	for {
 		var choice int
