@@ -1,3 +1,4 @@
+
 #r "nuget: MongoDB.Driver"
 
 open MongoDB.Bson
@@ -7,51 +8,53 @@ let client = MongoClient("mongodb://localhost:27017")
 let database = client.GetDatabase("CollegeDB")
 let collection = database.GetCollection<BsonDocument>("Students")
 
+collection.DeleteMany(Builders<BsonDocument>.Filter.Empty) |> ignore
 
-let student1 = BsonDocument()
-student1.Add("Id", 1)
-student1.Add("Name", "Sidharth")
-student1.Add("Age", 20)
+let student = BsonDocument()
+student.Add("name", "Rahul")
+student.Add("age", 20)
 
-let student2 = BsonDocument()
-student2.Add("Id", 2)
-student2.Add("Name", "TOM")
-student2.Add("Age", 21)
+printfn "===== MongoDB (NoSQL Database) ====="
 
-let student3 = BsonDocument()
-student3.Add("Id", 3)
-student3.Add("Name", "Elizabeth")
-student3.Add("Age", 22)
+printfn "\nCREATE Operation:"
+collection.InsertOne(student)
 
-printfn "CREATE:"
-collection.InsertMany([student1; student2; student3])
-
-
-printfn "\nREAD:"
-let students =
+let allStudents =
     collection.Find(Builders<BsonDocument>.Filter.Empty).ToList()
 
-for s in students do
-    printfn "%O" s
+printfn "Student Records:"
+for s in allStudents do
+    printfn "  %O" s
 
+printfn "\nREAD Operation:"
+let readStudents =
+    collection.Find(Builders<BsonDocument>.Filter.Empty).ToList()
 
-printfn "\nUPDATE:"
-let filter = Builders<BsonDocument>.Filter.Eq("Id", 1)
-let update = Builders<BsonDocument>.Update.Set("Age", 21)
+printfn "Student Records:"
+for s in readStudents do
+    printfn "  %O" s
+
+printfn "\nUPDATE Operation:"
+let filter = Builders<BsonDocument>.Filter.Eq("name", "Rahul")
+let update = Builders<BsonDocument>.Update
+                .Set("name", "Aman")
+                .Set("age", 21)
 
 collection.UpdateOne(filter, update) |> ignore
 
-let updatedStudent = collection.Find(filter).FirstOrDefault()
-printfn "%O" updatedStudent
+let updatedStudents =
+    collection.Find(Builders<BsonDocument>.Filter.Empty).ToList()
 
+printfn "Student Records:"
+for s in updatedStudents do
+    printfn "  %O" s
 
-printfn "\nDELETE:"
+printfn "\nDELETE Operation:"
 collection.DeleteOne(filter) |> ignore
 
 let remainingStudents =
     collection.Find(Builders<BsonDocument>.Filter.Empty).ToList()
 
+printfn "Student Records:"
 for s in remainingStudents do
-    printfn "%O" s
-
-printfn "\nCRUD operations completed successfully!"
+    printfn "  %O" s
