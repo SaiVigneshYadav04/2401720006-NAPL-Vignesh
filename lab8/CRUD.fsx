@@ -1,3 +1,4 @@
+
 #r "nuget: MySqlConnector"
 
 open MySqlConnector
@@ -16,29 +17,32 @@ let readStudents () =
     use command = new MySqlCommand("SELECT * FROM Students", connection)
     use reader = command.ExecuteReader()
 
+    printfn "Student Records:"
     while reader.Read() do
-        printfn "ID: %d, Name: %s, Age: %d"
+        printfn "  ID: %d, Name: %s, Age: %d"
             (reader.GetInt32(0))
             (reader.GetString(1))
             (reader.GetInt32(2))
 
-printfn "CREATE:"
-execute "INSERT INTO Students VALUES (1, 'Sid', 20)"
+execute "CREATE TABLE IF NOT EXISTS Students (Id INT PRIMARY KEY, Name VARCHAR(50), Age INT)"
+
+execute "DELETE FROM Students"
+
+printfn "===== MySQL (Relational Database) ====="
+
+printfn "\nCREATE Operation:"
+execute "INSERT INTO Students VALUES (1, 'Rahul', 20)"
 readStudents()
 
-printfn "\nREAD:"
+printfn "\nREAD Operation:"
 readStudents()
 
-printfn "\nUPDATE:"
-execute "UPDATE Students SET Age = 21 WHERE Id = 1"
+printfn "\nUPDATE Operation:"
+execute "UPDATE Students SET Name = 'Aman', Age = 21 WHERE Id = 1"
 readStudents()
 
-printfn "\nDELETE:"
+printfn "\nDELETE Operation:"
 execute "DELETE FROM Students WHERE Id = 1"
-readStudents()
-
-printfn "CREATE:"
-execute "INSERT INTO Students VALUES (2, 'Tom', 20)"
 readStudents()
 
 connection.Close()
