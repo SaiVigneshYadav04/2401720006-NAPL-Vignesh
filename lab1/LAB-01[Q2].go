@@ -1,61 +1,50 @@
+
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
-)
-
-func ReadInteger(reader *bufio.Reader, message string) int {
-	for {
-		fmt.Print(message)
-		input, _ := reader.ReadString('\n')
-		num, err := strconv.Atoi(strings.TrimSpace(input))
-
-		if err == nil && num >= -100000 && num <= 100000 {
-			return num
-		} else {
-			fmt.Println("Invalid input! Enter an integer between -100000 and 100000.")
-		}
-	}
-}
-
-func ReadFloat(reader *bufio.Reader, message string) float64 {
-	for {
-		fmt.Print(message)
-		input, _ := reader.ReadString('\n')
-		num, err := strconv.ParseFloat(strings.TrimSpace(input), 64)
-
-		if err == nil && num >= -100000 && num <= 100000 {
-			return num
-		} else {
-			fmt.Println("Invalid input! Enter a number between -100000 and 100000.")
-		}
-	}
-}
+import "fmt"
 
 func CalculatorQuestion() {
-	reader := bufio.NewReader(os.Stdin)
+	for {
+		var choice int
 
-	fmt.Println("Integer Operations")
+		fmt.Println("\n1. Integer Operations")
+		fmt.Println("2. Float Operations")
+		fmt.Println("3. Exit")
+		fmt.Print("Enter your choice: ")
+		fmt.Scan(&choice)
 
-	a := ReadInteger(reader, "Enter first integer: ")
-	b := ReadInteger(reader, "Enter second integer: ")
+		if choice == 1 {
+			var a, b int
 
-	fmt.Println("Addition:", a+b)
-	fmt.Println("Subtraction:", a-b)
-	fmt.Println("Multiplication:", a*b)
+			fmt.Print("Enter first integer: ")
+			fmt.Scan(&a)
 
-	fmt.Println("\nFloating Point Operations")
+			fmt.Print("Enter second integer: ")
+			fmt.Scan(&b)
 
-	x := ReadFloat(reader, "Enter first float: ")
-	y := ReadFloat(reader, "Enter second float: ")
+			fmt.Println("Addition:", a+b)
+			fmt.Println("Subtraction:", a-b)
+			fmt.Println("Multiplication:", a*b)
 
-	fmt.Printf("Addition: %.2f\n", x+y)
-	fmt.Printf("Subtraction: %.2f\n", x-y)
-	fmt.Printf("Multiplication: %.2f\n", x*y)
+		} else if choice == 2 {
+			var x, y float32
+
+			fmt.Print("Enter first float: ")
+			fmt.Scan(&x)
+
+			fmt.Print("Enter second float: ")
+			fmt.Scan(&y)
+
+			fmt.Printf("Addition: %f\n", x+y)
+			fmt.Printf("Subtraction: %f\n", x-y)
+			fmt.Printf("Multiplication: %f\n", x*y)
+
+		} else if choice == 3 {
+			break
+		} else {
+			fmt.Println("Invalid choice!")
+		}
+	}
 }
 
 func main() {
