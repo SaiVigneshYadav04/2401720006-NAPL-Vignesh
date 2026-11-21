@@ -5,7 +5,6 @@ class Student(
     private var percentage: Double
 ) {
 
-    // Function to accept student data
     fun acceptData() {
         print("Enter Roll Number: ")
         rollNo = readLine()!!.toInt()
@@ -20,7 +19,6 @@ class Student(
         percentage = readLine()!!.toDouble()
     }
 
-    // Function to display student details
     fun displayDetails() {
         println("\nStudent Details")
         println("Roll Number: $rollNo")
