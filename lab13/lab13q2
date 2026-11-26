@@ -16,17 +16,10 @@ fun calculate(list: List<Int>, operation: (Int) -> Int) {
 
 fun main() {
 
-    // 1. Default Arguments
     display()
     display("Ram", 25)
-
-    // 2. Named Arguments
     display(age = 30, name = "Sam")
-
-    // 3. Vararg Function
     numbers(10, 20, 30, 40, 50)
-
-    // 4. Higher Order Function
     val list = listOf(1, 2, 3, 4, 5)
 
     calculate(list) { it * 2 }
